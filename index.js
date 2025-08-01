@@ -28,7 +28,16 @@ app.use(cors(corsOptions));
 
 app.locals.title = 'Better Jeopardy API';
 // app.locals.questions = pool.query
-pool.connect();
+
+// Test database connection on startup
+pool.connect((err, client, release) => {
+  if (err) {
+    console.error('Error connecting to database:', err);
+  } else {
+    console.log('Successfully connected to database');
+    release();
+  }
+});
 
 app.get('/', (request, response) => {
   response.status(200).send(`Welcome to the ${app.locals.title}`)
@@ -40,7 +49,7 @@ app.get('/api/v1/questions', (request, response) => {
     console.log(res);
     if (err) {
       console.log(err)
-      return err;
+      return response.status(500).json({ error: 'Database error', details: err.message });
     }
     questions = res.rows;
     response.status(200).send({questions})
