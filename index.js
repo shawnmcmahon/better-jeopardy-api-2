@@ -11,7 +11,20 @@ const cors = require('cors')
 const { pool } = require('./config')
 
 app.use(express.json());
-app.use(cors());
+
+// Configure CORS to allow requests from Netlify
+const corsOptions = {
+  origin: [
+    'https://better-jeopardy.netlify.app',
+    'http://localhost:3000', // For local development
+    'http://localhost:3001'  // Alternative local port
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 app.locals.title = 'Better Jeopardy API';
 // app.locals.questions = pool.query
