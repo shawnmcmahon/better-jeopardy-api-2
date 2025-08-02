@@ -12,12 +12,14 @@ const { pool } = require('./config')
 
 app.use(express.json());
 
-// Configure CORS to allow requests from Netlify
+// Configure CORS to allow requests from Netlify and Vercel
 const corsOptions = {
   origin: [
     'https://better-jeopardy.netlify.app',
     'http://localhost:3000', // For local development
-    'http://localhost:3001'  // Alternative local port
+    'http://localhost:3001', // Alternative local port
+    /\.vercel\.app$/, // Allow all Vercel domains
+    /\.netlify\.app$/ // Allow all Netlify domains
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
