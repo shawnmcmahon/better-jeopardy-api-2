@@ -19,8 +19,9 @@ const corsOptions = {
     'http://localhost:3000', // For local development
     'http://localhost:3001', // Alternative local port
     /\.vercel\.app$/, // Allow all Vercel domains
-    /\.netlify\.app$/ // Allow all Netlify domains
-  ],
+    /\.netlify\.app$/, // Allow all Netlify domains
+    process.env.FRONTEND_URL // Allow custom frontend URL if set
+  ].filter(Boolean), // Remove any undefined values
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true
